@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt) {
             $stmt->bind_param("ssss", $username, $password, $role, $targetFile);
             $stmt->execute();
-
+            header ("location: ../add.php");
             // Additional code as needed...
 
             $stmt->close();
