@@ -213,10 +213,10 @@ $role = $_SESSION["role"];
 <a href="dashboard.php"><img src="assets/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
 </li>
 <li class="submenu">
-<!-- <a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span> Product</span> <span class="menu-arrow"></span></a>
+<a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span> Product</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="productlist.html">Product List</a></li>
-<li><a href="addproduct.html">Add Product</a></li>
+<li><a href="addProd.php">Product List</a></li>
+<!-- <li><a href="addproduct.html">Add Product</a></li>
 <li><a href="categorylist.html">Category List</a></li>
 <li><a href="addcategory.html">Add Category</a></li>
 <li><a href="subcategorylist.html">Sub Category List</a></li>
@@ -224,10 +224,10 @@ $role = $_SESSION["role"];
 <li><a href="brandlist.html">Brand List</a></li>
 <li><a href="addbrand.html">Add Brand</a></li>
 <li><a href="importproduct.html">Import Products</a></li>
-<li><a href="barcode.html">Print Barcode</a></li>
+<li><a href="barcode.html">Print Barcode</a></li> -->
 </ul>
 </li>
-<li class="submenu">
+<!-- <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/sales1.svg" alt="img"><span> Sales</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="saleslist.html">Sales List</a></li>
