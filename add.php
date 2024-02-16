@@ -10,7 +10,7 @@ echo $templateContent;
 // Assuming $conn is your database connection, you need to establish it before using this code
 // Adjust the database connection accordingly
 include('config/db.php');
-$result = $conn->query("SELECT * FROM users");
+
 ?>
 
 
@@ -125,7 +125,7 @@ $result = $conn->query("SELECT * FROM users");
     </style>
 </head>
 <body>
-    <form action="config/addUser.php" method="POST" enctype="multipart/form-data">
+    
         <h4><b>Add User</b></h4>
         <div class="table-container">
             <table>
@@ -141,9 +141,11 @@ $result = $conn->query("SELECT * FROM users");
            
         
                 <?php
+
+$result = $conn->query("SELECT * FROM users");
 if ($result !== false && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-       echo"<form action='config/updatedeleteuser.php' method='POST'>";
+       echo"<form action='config/updateuser.php' method='POST'>";
         echo "<tr>";
         // Displaying input field for "User Name"
         echo "<td><input type='text' name='update_username' value='{$row['username']}'></td>";
@@ -156,16 +158,21 @@ if ($result !== false && $result->num_rows > 0) {
         
         // Action buttons
         echo "<td class='action-buttons'>";
-        echo "<button class='update-btn'>Update</button>";
+        echo"<input type= 'hidden' name='updateusers' value='{$row['user_id']}'>";
+        echo "<button class='update-btn' type='submit'name='updateuser'>Update</button>";
+        echo"</form>";
+        echo"<form action='config/deleteuser.php' method='POST'>";
+        echo"<input type= 'hidden' name='deleteuser' value='{$row['user_id']}'>";
         echo "<button class='delete-btn'>Delete</button>";
         echo"</form>";
+        
         echo "</td>";
         
         echo "</tr>";
     }
 }
 ?>
-
+                <form action="config/addUser.php" method="POST" enctype="multipart/form-data">
                     <tr>
                         <td><input type="text" id="username" name="username" required></td>
                         <td><input type="password" id="password" name="password" required></td>
