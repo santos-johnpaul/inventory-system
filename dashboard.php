@@ -1,7 +1,7 @@
 <?php
 // Include the template content
 ob_start();
-include('template.php');
+include ('template.php');
 $templateContent = ob_get_clean();
 
 // Echo the entire HTML content of the template
