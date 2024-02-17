@@ -76,9 +76,27 @@ if (isset($_POST['update'])) {
         $stmtProducts = $conn->prepare($updateProductsQuery);
         $stmtProducts->bind_param("ssi", $productName, $categoryName, $id);
 
+        // Fetch CategoryID
+        $categoryIDQuery = "SELECT CategoryID FROM Category WHERE CategoryName=?";
+        $stmtCategoryID = $conn->prepare($categoryIDQuery);
+        $stmtCategoryID->bind_param("s", $categoryName);
+        $stmtCategoryID->execute();
+        $categoryIDResult = $stmtCategoryID->get_result();
+
+        if ($categoryIDResult->num_rows > 0) {
+            $categoryIDRow = $categoryIDResult->fetch_assoc();
+            $categoryID = $categoryIDRow['CategoryID'];
+        } else {
+            // Handle the case where the category doesn't exist
+            throw new Exception("Category not found.");
+        }
+
         if ($stmtProducts->execute() !== TRUE) {
             throw new Exception("Error updating Products table: " . $stmtProducts->error);
         }
+
+        $stmtProducts->close();
+        $stmtCategoryID->close();
 
         // Update ProductDetails table
         $updateProductDetailsQuery = "UPDATE ProductDetails 
@@ -89,7 +107,7 @@ if (isset($_POST['update'])) {
                                           Defect=?, 
                                           Refund=?, 
                                           Quantity=?
-                                      WHERE PDID=(SELECT PDID FROM Products WHERE ProductID=?)";
+                                      WHERE PDID=?";
         $stmtProductDetails = $conn->prepare($updateProductDetailsQuery);
         $stmtProductDetails->bind_param("ddiiiiii", $expiryDate, $srp, $vat, $lossItem, $defect, $refund, $quantity, $id);
 
@@ -97,21 +115,20 @@ if (isset($_POST['update'])) {
             throw new Exception("Error updating ProductDetails table: " . $stmtProductDetails->error);
         }
 
-        // Update Category table (assuming you want to update CategoryName)
+        $stmtProductDetails->close();
+
+        // Update Category table
         $updateCategoryQuery = "UPDATE Category 
                                SET CategoryName=?
-                               WHERE CategoryID=(SELECT CategoryID FROM Products WHERE ProductID=?)";
+                               WHERE CategoryID=?";
         $stmtCategory = $conn->prepare($updateCategoryQuery);
-        $stmtCategory->bind_param("si", $categoryName, $id);
+        $stmtCategory->bind_param("si", $categoryName, $categoryID);
 
         if ($stmtCategory->execute() !== TRUE) {
             throw new Exception("Error updating Category table: " . $stmtCategory->error);
         }
 
-        $stmtProducts->close();
-        $stmtProductDetails->close();
         $stmtCategory->close();
-        $checkStmt->close();
 
         // Commit the transaction if everything is successful
         $conn->commit();
