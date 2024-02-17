@@ -138,7 +138,7 @@ echo $templateContent;
 
 <h2>PRODUCTS</h2>
 
-<div class="table-container"> <!-- Wrap the table inside a div container -->
+<div class="table-container">
     <table>
         <tr>
             <th>Product Name</th>
@@ -150,51 +150,63 @@ echo $templateContent;
             <th>Loss Item</th>
             <th>Defect</th>
             <th>Return Refund</th>
+            <th>Quantity</th> <!-- Added Quantity column -->
             <th>Action</th>
         </tr>
         <?php
-        // Connect to your database
-        include 'config/db.php';
+// Connect to your database
+include 'config/db.php';
 
-        // Display Table
-        $sql = "SELECT * FROM PRODUCTS";
-        $result = $conn->query($sql);
+// Display Table
+$sql = "SELECT Products.*, Category.CategoryName, ProductDetails.PDDescription, ProductDetails.ExpiryDate, ProductDetails.SRP, ProductDetails.VAT, ProductDetails.LossItem, ProductDetails.Defect, ProductDetails.Refund, ProductDetails.Quantity 
+        FROM Products 
+        INNER JOIN Category ON Products.CategoryID = Category.CategoryID
+        INNER JOIN ProductDetails ON Products.PDID = ProductDetails.PDID";
 
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                echo "<tr><form method='post' action='config/insertProd.php'>";
-                echo "<td><input type='text' name='productName' value='" . $row['ProductName'] . "'></td>";
-                echo "<td><textarea name='productDescription' rows='4'>" . $row['ProductDescription'] . "</textarea></td>";
-                echo "<td><input type='date' name='expiryDate' value='" . $row['ExpiryDate'] . "'></td>";
-                echo "<td><input type='text' name='category' value='" . $row['Category'] . "'></td>";
-                echo "<td><input type='text' name='srp' value='" . $row['SRP'] . "'></td>";
-                echo "<td><input type='text' name='vat' value='" . $row['VAT'] . "'></td>";
-                echo "<td><input type='number' name='lossItem' value='" . $row['LossItem'] . "'></td>";
-                echo "<td><input type='number' name='defect' value='" . $row['Defect'] . "'></td>";
-                echo "<td><input type='number' name='Refund' value='" . $row['Refund'] . "'></td>";
-                echo "<input type='hidden' name='productID' value='" . $row['ProductID'] . "'>";
-                echo "<td><button type='submit' name='update' class='btn-update'>Update</button>";
-                echo "<button class='btn-delete' type='submit' name='delete' value='" . $row['ProductID'] . "'>Delete</button></td>";
-                echo "</form></tr>";
-            }
-        } else {
-            echo "<tr><td colspan='10'>0 results</td></tr>";
-        }
-        echo "<tr><form method='post' action='config/insertProd.php'>";
-        echo "<td><input type='text' name='newProductName' placeholder='Name'></td>";
-        echo "<td><textarea name='newProductDescription' placeholder='Description' rows='4'></textarea></td>";
-        echo "<td><input type='date' name='newExpiryDate' placeholder='Expiry Date'></td>";
-        echo "<td><input type='text' name='newCategory' placeholder='Category'></td>";
-        echo "<td><input type='text' name='newSRP' placeholder='SRP'></td>";
-        echo "<td><input type='text' name='newVAT' placeholder='VAT'></td>";
-        echo "<td><input type='number' name='newLossItem' placeholder='Loss'></td>";
-        echo "<td><input type='number' name='newDefect' placeholder='Def'></td>";
-        echo "<td><input type='number' name='newRefund' placeholder='Return'></td>";
-        echo "<td><button type='submit' name='add' class='btn-add'>Add</button></td>";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr><form method='post' action='config/insertProd.php'>"; // Change the action to your update script
+        echo "<td><input type='text' name='productName' value='" . htmlspecialchars($row['ProductName']) . "'></td>";
+        echo "<td><textarea name='PDDescription' rows='4'>" . htmlspecialchars($row['PDDescription']) . "</textarea></td>";
+        echo "<td><input type='date' name='expiryDate' value='" . $row['ExpiryDate'] . "'></td>";
+        echo "<td><input type='text' name='category' value='" . htmlspecialchars($row['CategoryName']) . "'></td>";
+        echo "<td><input type='text' name='srp' value='" . $row['SRP'] . "'></td>";
+        echo "<td><input type='text' name='vat' value='" . $row['VAT'] . "'></td>";
+        echo "<td><input type='number' name='lossItem' value='" . $row['LossItem'] . "'></td>";
+        echo "<td><input type='number' name='defect' value='" . $row['Defect'] . "'></td>";
+        echo "<td><input type='number' name='Refund' value='" . $row['Refund'] . "'></td>";
+        echo "<td><input type='number' name='quantity' value='" . $row['Quantity'] . "'></td>";
+        echo "<input type='hidden' name='productID' value='" . $row['ProductID'] . "'>";
+        echo "<td><button type='submit' name='update' class='btn-update'>Update</button>";
+        echo "<button class='btn-delete' type='submit' name='delete' value='" . $row['ProductID'] . "'>Delete</button></td>";
         echo "</form></tr>";
-        ?>
+    }
+} else {
+    echo "<tr><td colspan='11'>0 results</td></tr>";
+}
+
+echo "<tr><form method='post' action='config/insertProd.php'>"; // Change the action to your insert script
+echo "<td><input type='text' name='newProductName' placeholder='Name'></td>";
+echo "<td><textarea name='newPDDescription' placeholder='Description' rows='4'></textarea></td>";
+echo "<td><input type='date' name='newExpiryDate' placeholder='Expiry Date'></td>";
+echo "<td><input type='text' name='newCategoryName' placeholder='Category'></td>";
+echo "<td><input type='text' name='newSRP' placeholder='SRP'></td>";
+echo "<td><input type='text' name='newVAT' placeholder='VAT'></td>";
+echo "<td><input type='number' name='newLossItem' placeholder='Loss'></td>";
+echo "<td><input type='number' name='newDefect' placeholder='Def'></td>";
+echo "<td><input type='number' name='newRefund' placeholder='Return'></td>";
+echo "<td><input type='number' name='newQuantity' placeholder='Quantity'></td>";
+echo "<td><button type='submit' name='add' class='btn-add'>Add</button></td>";
+echo "</form></tr>";
+?>
+
+
+
     </table>
 </div>
+
 
 </body>
 </html>

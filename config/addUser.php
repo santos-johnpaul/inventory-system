@@ -1,10 +1,9 @@
 <?php
 require_once 'db.php';
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
-    $password = password_hash($_POST["password"], PASSWORD_DEFAULT); // Use password_hash for secure password hashing
+    $password = md5($_POST["password"]); // Use MD5 for password hashing (not recommended for security reasons)
     $role = $_POST["role"];
 
     // Handling file upload
@@ -19,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt) {
             $stmt->bind_param("ssss", $username, $password, $role, $targetFile);
             $stmt->execute();
-            header ("location: ../add.php");
+            header("location: ../add.php");
             // Additional code as needed...
 
             $stmt->close();

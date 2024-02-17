@@ -31,7 +31,6 @@ include('config/db.php');
         }
 
         form {
-            background-color: #fff;
             padding: 15px;
             border-radius: 3px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -158,12 +157,10 @@ if ($result !== false && $result->num_rows > 0) {
         
         // Action buttons
         echo "<td class='action-buttons'>";
-        echo"<input type= 'hidden' name='updateusers' value='{$row['user_id']}'>";
+        echo"<input type= 'hidden' name='action' value='{$row['user_id']}'>";
         echo "<button class='update-btn' type='submit'name='updateuser'>Update</button>";
-        echo"</form>";
-        echo"<form action='config/deleteuser.php' method='POST'>";
         echo"<input type= 'hidden' name='deleteuser' value='{$row['user_id']}'>";
-        echo "<button class='delete-btn'>Delete</button>";
+        echo "<button class='delete-btn' type='submit' name='deleteuser'>Delete</button>";
         echo"</form>";
         
         echo "</td>";
