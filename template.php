@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["user_id"])) {
+if (!isset($_SESSION["id"])) {
     header("Location: ../index.php");
     exit();
 }
@@ -216,6 +216,7 @@ $role = $_SESSION["role"];
 <a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span> Product</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="addProd.php">Product List</a></li>
+<li><a href="add_variant.php">Add Variant</a></li>
 <!-- <li><a href="addproduct.html">Add Product</a></li>
 <li><a href="categorylist.html">Category List</a></li>
 <li><a href="addcategory.html">Add Category</a></li>
@@ -324,6 +325,12 @@ $role = $_SESSION["role"];
 <li><a href="customerreport.html">Customer Report</a></li>
 </ul>
 </li> -->
+<li class="submenu">
+    <a href="javascript:void(0);"><img src="assets/img/maintenance.png" alt="img"><span> Maintenance</span><span class="menu-arrow"></span></a>
+<ul>
+<li><a href="add_variant.php">Add Variant</a></li>
+</ul>
+</li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/users1.svg" alt="img"><span> Users</span> <span class="menu-arrow"></span></a>
 <ul>

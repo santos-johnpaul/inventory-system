@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (move_uploaded_file($_FILES["pic"]["tmp_name"], $targetFile)) {
         // Perform the registration and store the hashed password and role in the database
-        $sql = "INSERT INTO users (username, password, role, pic) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO user (username, password, role, pic) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
 
         if ($stmt) {
