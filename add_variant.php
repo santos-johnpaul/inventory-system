@@ -35,30 +35,34 @@ $result = $conn->query($sql);
     </thead>
     <tbody>
     <tr>
-            <form method="post" action="config/addvariant.php">
-                <td></td>
-                <td><input type="text" name="variant_name" placeholder="Add Variant" required></td>
-                <td><button type="submit" class="btn btn-primary">Add</button></td>
-            </form>
+        <form method="post" action="config/addvariant.php">
+            <td></td>
+            <td><input type="text" name="variant_name" placeholder="Add Variant" required></td>
+            <td><button type="submit" class="btn btn-primary">Add</button></td>
+        </form>
     </tr>
 
-        <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row['variant_id'] . "</td>";
-                echo "<td><input type='text' value='" . $row['variant'] . "'></td>"; // Fixed concatenation here
-                echo "<td>";
-                echo "<a href='updatevariant.php?id=" . $row['variant_id'] . "' class='btn btn-info'>Update</a>";
-                echo "<a href='config/deletevariant.php?id=" . $row['variant_id'] . "' class='btn btn-danger'>Delete</a>";
-                echo "</td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "<tr><td colspan='3'>No variants found</td></tr>";
+    <?php
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $row['variant_id'] . "</td>";
+            // Form for updating variant name
+            echo "<td><form method='post' action='config/updatevariant.php'>";
+            echo "<input type='hidden' name='variant_id' value='" . $row['variant_id'] . "'>"; // Hidden input for variant ID
+            echo "<input type='text' name='variant_name' value='" . $row['variant'] . "' required>"; // Input for variant name
+            echo "<td>";
+            // Update button
+            echo "<button type='submit' class='btn btn-info'>Update</button>";
+            echo "</form>";
+            // Delete button
+            echo "<a href='config/deletevariant.php?delete=" . $row['variant_id'] . "' class='btn btn-danger'>Delete</a></td>";
+            echo "</tr>";
         }
-        ?>
-     
+    } else {
+        echo "<tr><td colspan='3'>No variants found</td></tr>";
+    }
+    ?>
     </tbody>
   </table>
   

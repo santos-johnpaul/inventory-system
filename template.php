@@ -329,6 +329,8 @@ $role = $_SESSION["role"];
     <a href="javascript:void(0);"><img src="assets/img/maintenance.png" alt="img"><span> Maintenance</span><span class="menu-arrow"></span></a>
 <ul>
 <li><a href="add_variant.php">Add Variant</a></li>
+<li><a href="add_category.php">Add Category</a></li>
+<li><a href="add_supplier.php">Add Supplier</a></li>
 </ul>
 </li>
 <li class="submenu">
